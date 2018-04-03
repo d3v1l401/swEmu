@@ -27,6 +27,7 @@ func OpSwitch(r *s.PacketReader) []byte {
 	case CLASS_LOGINCLASS:
 		switch r.Type {
 		case TYPE_AUTHCLASSICREQ:
+			fmt.Println("CLASSIC REQ SHOULD BE DISABLED!")
 			r.Skip(2)
 
 			username := r.ReadStringUTF16()
@@ -37,9 +38,9 @@ func OpSwitch(r *s.PacketReader) []byte {
 
 			pW := s.NewWriter()
 			pW.Write("\x02\x02\x00\x00\x00\x00\x00\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x01")
-			return pW.Finalize()
-
-			break
+			outData := pW.Finalize()
+			fmt.Printf("SENT:\n%s\n", hex.Dump(pW.GetBuffer()))
+			return outData
 		}
 		break
 	case CLASS_AUTH:
@@ -60,7 +61,9 @@ func OpSwitch(r *s.PacketReader) []byte {
 			// 4 bytes unknown, seems random
 			pW.Write("\x4a\x22\x28\x00")
 			pW.Write("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00")
-			return pW.Finalize()
+			outData := pW.Finalize()
+			fmt.Printf("SENT:\n%s\n", hex.Dump(pW.GetBuffer()))
+			return outData
 		}
 	case CLASS_SERVERS:
 		switch r.Type {
@@ -97,7 +100,6 @@ func OnPacketRecv(client *session.Instance, buffer []byte) bool {
 
 		if ack := OpSwitch(s.NewReader(buffer)); ack != nil {
 			client.Send(ack)
-			fmt.Printf("SENT:\n%s\n", hex.Dump(ack))
 		}
 
 		return true

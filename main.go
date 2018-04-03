@@ -8,7 +8,18 @@ import (
 	"./server/ssettings"
 )
 
+var (
+	gConf *common.Configuration
+)
+
 func main() {
+	common.Print("Loading configuration...", common.MTYPE_NORMAL)
+
+	if gConf = common.ImportConfiguration(".\\data\\config\\config.json"); gConf == nil {
+		common.Print("Cannot load configuration file!", common.MTYPE_ERROR)
+		return
+	}
+
 	common.Print("Loading protocol keyTable...", common.MTYPE_NORMAL)
 
 	if err := crypto.ImportKeyTable(".\\data\\crypto\\keyTable"); err != nil {

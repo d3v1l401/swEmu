@@ -1,0 +1,42 @@
+{
+  "Servers": [
+    {
+      "ID": 117,
+      "Flag": 39,
+      "Name": "d3vil401",
+      "IP": "127.0.0.1",
+      "Port": 11000,
+      "CanJoin": true,
+      "PlayerLimit": 12000
+    }
+  ],
+  "AuthServer": {
+    "Enabled": true,
+    "IP": "127.0.0.1",
+    "Port": 10000,
+    "AllowAuthProto": [
+      "CLASSIC",
+      "GAMEFORGE"
+    ],
+    "AdminOnly": true
+  },
+  "AdminServer": {
+    "Enabled": false,
+    "IP": "127.0.0.1",
+    "Port": 1337,
+    "AllowAuthProto": [
+      "SIGNATURE",
+      "CLASSIC",
+      "BOTH"
+    ]
+  },
+  
+  "Database": {
+    "UseSignature": false,
+    "IP": "127.0.0.1",
+    "Port": 3306,
+    "Username": "root",
+    "Password": "",
+    "Signature": ""
+  }
+}
